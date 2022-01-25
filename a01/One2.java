@@ -25,7 +25,9 @@ public class One2 {
                          .map(s -> Integer.parseInt(s))
                          .collect(Collectors.toList());
 
-            int previousSum = 0, nextSum = 0;
+            int previousSum = Integer.MAX_VALUE; // so that on the first iteration, nextSum < previousSum
+            int nextSum = 0;
+
             for (int num : lines) {
 
                 rollWindow(window, num);
@@ -38,11 +40,6 @@ public class One2 {
                 }
                 if (nextSum > previousSum) {
                     count++;
-                    Helper.print("look, nextsum " + nextSum + ", prevsum " + previousSum
-                            + ", window is like " + windowString(window));
-                } else {
-                    Helper.print("OOOOOOOOHHHHHHHHHOOOOOOOOHHHHHHHHHOOOOOOOOHHHHHHHHH not");
-                    
                 }
                 previousSum = nextSum;
             }
@@ -55,18 +52,10 @@ public class One2 {
         Helper.print(count);
     }
 
-    private static String windowString(int[] window) {
-        StringBuilder sb = new StringBuilder();
-        for (int i : window) {
-            sb.append(i).append(',');
-        }
-        return sb.toString();
-    }
-
     private static void rollWindow(int[] window, int num) {
 
         for (int i = window.length - 1; i > 0; i--) {
-            window[i] = window[i - 1]; // roll window
+            window[i] = window[i - 1];
         }
         window[0] = num;
     }
