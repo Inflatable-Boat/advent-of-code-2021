@@ -10,7 +10,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-public class Four {
+public class Four2 {
 
     private static final int GRID_SIZE = 5;
 
@@ -26,23 +26,25 @@ public class Four {
 
             List<BingoBoard> bingoBoards = readBingoBoards(lines);
 
-            BingoBoard bingo = null; // Reference to BingoBoard which has bingo
+            List<BingoBoard> bingoes = new ArrayList<>(); // Reference to BingoBoards which have bingo
 
             // BingoBoards are read in and we ready to play, let's call the numbers!
             int i = 0;
-            while (bingo == null) { // will throw IndexOutOfBoundException if no boards have bingo, not possible
-                                    // however since all numbers will be called
+            while (i < numbers.size() && !bingoBoards.isEmpty()) { 
                 int number = numbers.get(i++);
+                bingoes.clear();
                 for (BingoBoard bingoBoard : bingoBoards) {
                     bingoBoard.mark(number);
                     if (bingoBoard.hasBingo()) { // Bingo!
-                        bingo = bingoBoard;
+                        bingoes.add(bingoBoard);
                     }
                 }
+                bingoBoards.removeAll(bingoes); // don't have to loop over these next time
             }
 
-            System.out.println("Score: " + calculateScore(bingo, numbers.get(i - 1)));
-            System.out.println("winning board:\n" + bingo.toString());
+            BingoBoard lastBingo = bingoes.get(bingoes.size() - 1);
+
+            System.out.println("Score: " + calculateScore(lastBingo, numbers.get(i - 1)));
 
         } catch (IOException ioe) {
             ioe.printStackTrace();
