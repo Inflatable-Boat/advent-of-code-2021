@@ -40,15 +40,15 @@ public class Three {
                     epsilon += 1 << NUM_BITS - 1 - i;
                     // since epsilon is the complement of gamma, at least for the right NUM_BITS bits,
                     // rather than "calculate it" like here, we can also just take the complement of gamma
-                    // at the end of this loop, but only the complement of the last NUM_BITS bits, like so:
-                    //
-                    // epsilon = gamma ^ (-1 >>> (32 - NUM_BITS));
-                    // -1 in binary is all 1. bitshift right 32 - NUM_BITS (>>), but fill with zeroes (>>>),
-                    // so -1 >>> (32 - NUM_BITS) is just 1s for the right NUM_BITS bits. Then take the bitwise xor ^
+                    // at the end of this loop, but only the complement of the last NUM_BITS bits, see epsilon2
                 }
             }
-            print("gamma   = " + gamma   + ", bits: " + getBits(gamma, NUM_BITS));
-            print("epsilon = " + epsilon + ", bits: " + getBits(epsilon, NUM_BITS));
+            print("gamma    = " + gamma   + ", bits: " + getBits(gamma, NUM_BITS));
+            print("epsilon  = " + epsilon + ", bits: " + getBits(epsilon, NUM_BITS));
+            int epsilon2 = gamma ^ (-1 >>> (32 - NUM_BITS));
+            // -1 in binary is all 1. bitshift right 32 - NUM_BITS (>>), but fill with zeroes (>>>),
+            // so -1 >>> (32 - NUM_BITS) is just 1s for the right NUM_BITS bits. Then take the bitwise xor ^
+            print("epsilon2 = " + epsilon2 + ", bits: " + getBits(epsilon2, NUM_BITS)); // should equal epsilon
 
             print("gamma * epsilon = " + gamma * epsilon);
         } catch (IOException ioe) {
