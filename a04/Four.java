@@ -96,7 +96,7 @@ public class Four {
  */
 class BingoBoard {
 
-    final int GRID_SIZE;
+    final private int GRID_SIZE;
     int[][] grid;
     boolean[][] marked;
 
