@@ -1,7 +1,6 @@
 package a04;
 
 import static boat.Helper.printTimeSince;
-import static java.lang.String.format;
 import static java.util.stream.Collectors.toList;
 
 import java.io.IOException;
