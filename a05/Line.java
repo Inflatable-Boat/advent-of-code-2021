@@ -35,33 +35,34 @@ public class Line {
         } else {
             // assuming diagonal lines as the only other option
             if (countDiagonalLines) {
-                // start from the point with smallest x, or "most to the left"
-                final boolean isStartMoreLeft = start.x < end.x;
-
-                final int x1 = isStartMoreLeft ? start.x : end.x;
-                final int y1 = isStartMoreLeft ? start.y : end.y;
-                final int x2 = isStartMoreLeft ? end.x : start.x;
-                final int y2 = isStartMoreLeft ? end.y : start.y;
-
-                // does the line go up? Invest now!
-                final int Δy = y2 > y1 ? 1 : -1;
-
-                int x = x1 - 1;  // - 1 so that both operations will be a pre-increment:
-                int y = y1 - Δy; // -Δy because += works like pre-increment, i.e.
-                                 // the first call of new Point will give the result of y + Δy
-
-                while (x < x2) { // && y < y2 is an irrelevant extra condition
-                    points.add(new Point(x += 1, y += Δy));
-                }
-
-                if (y != y2) {
-                    throw new IllegalStateException("only diagonal lines expected");
-                }
+                addPointsInDiagonalLine(points);
             } else {
                 System.out.println("ignoring diagonal line");
             }
         }
 
         return points;
+    }
+
+    private void addPointsInDiagonalLine(List<Point> points) {
+        // start from the point with smallest x, or "most to the left"
+        final boolean isStartMoreLeft = start.x < end.x;
+
+        final int x1 = isStartMoreLeft ? start.x : end.x;
+        final int y1 = isStartMoreLeft ? start.y : end.y;
+        final int x2 = isStartMoreLeft ? end.x : start.x;
+        final int y2 = isStartMoreLeft ? end.y : start.y;
+
+        // does the line go up? Invest now!
+        final int Δy = y2 > y1 ? 1 : -1;
+
+        int y = y1;
+        for (int x = x1; x <= x2; x++, y += Δy) {
+            points.add(new Point(x, y));
+        }
+
+        if (y != y2 + Δy) { // + Δy because of the final overshoot in the for loop above
+            throw new IllegalStateException("only diagonal lines expected");
+        }
     }
 }
