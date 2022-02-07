@@ -28,12 +28,10 @@ public class Five {
         }
 
         for (String string : strings) {
-            for (Point point : parseLine(string).getPoints()) {
+            for (Point point : parseLine(string).getPoints(true)) { // count diagonal lines true/false
                 grid[point.x][point.y]++;
             }
         }
-
-        // printLeft50PointsColumn();
 
         System.out.println("Number of points with at least danger level 2: " +
                 findNumberOfPointsWithAtLeast(2));
@@ -52,18 +50,6 @@ public class Five {
             }
         }
         return total;
-    }
-
-    private static void printLeft50PointsColumn() {
-
-        StringBuilder sb = new StringBuilder();
-        for (int i = 0; i < 50; i++) {
-            for (int j = 0; j < 50; j++) {
-                sb.append(grid[i][j]);
-            }
-            sb.append('\n');
-        }
-        System.out.println(sb.toString());
     }
 
     private static Line parseLine(String string) {
